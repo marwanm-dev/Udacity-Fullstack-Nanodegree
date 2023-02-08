@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "moduleResolution": "Node",
+    "module": "commonjs",
+    "lib": ["ES2020", "DOM"],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "noImplicitReturns": true
+  },
+  "exclude": ["node_modules", "spec"]
+  // REVIEW: npm run lint => idk why jasmine stuff not defined
+}

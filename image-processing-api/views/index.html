@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image processing api</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      label,
+      a {
+        cursor: pointer;
+        color: blue;
+      }
+      #upload-photo {
+        opacity: 0;
+        position: absolute;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>See resized <a href="/api/images">images</a></h1>
+      <br />
+      <h1>Or upload a <label for="upload-photo">new image</label></h1>
+      <input type="file" name="photo" id="upload-photo" />
+    </main>
+  </body>
+  <script>
+    const handleUpload = async file => {
+      await fetch('/api/images/new', {
+        method: 'POST',
+        body: JSON.stringify(file),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+    };
+
+    function handleFileSelect(event) {
+      const fileReader = new FileReader();
+      const file = event.target.files[0];
+
+      fileReader.addEventListener(
+        'load',
+        () => {
+          const { result: base64 } = fileReader;
+          const fileSample = { name: file.name, base64 };
+          handleUpload(fileSample);
+        },
+        false
+      );
+
+      if (file) fileReader.readAsDataURL(file);
+    }
+
+    document.querySelector('input').addEventListener('change', handleFileSelect, false);
+  </script>
+</html>

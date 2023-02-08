@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image processing api</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      div {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+      h1,
+      h2,
+      h3 {
+        text-align: center;
+      }
+      .imageContainer {
+        text-decoration: none;
+        color: black;
+        padding-inline: 3rem;
+        border-radius: 1.5rem;
+      }
+      .imageContainer img {
+        border-radius: 1.5rem;
+      }
+      .imageContainer:hover img {
+        transition: 0.45s;
+        border-radius: 3.5rem;
+      }
+      .nav {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/" class="nav">&LeftArrow; Home</a>
+    <h1>Full images</h1>
+    <div class="fullImages"></div>
+    <h1>Resized images</h1>
+    <div class="resizedImages"></div>
+  </body>
+  <script>
+    const resizedRoot = document.querySelector('div.resizedImages');
+    const fullRoot = document.querySelector('div.fullImages');
+    (async () => {
+      const response = await fetch('/api/images/all');
+      const { resized, full } = await response.json();
+
+      const resizedImages = resized.map(image => ({
+        name: image.slice(0, image.lastIndexOf('-')),
+        format: image.slice(image.lastIndexOf('.') + 1, image.length),
+        width: image.slice(image.lastIndexOf('-') + 1, image.lastIndexOf('x')),
+        height: image.slice(image.lastIndexOf('x') + 1, image.lastIndexOf('.')),
+        url: `/api/images?filename=${image.slice(0, image.lastIndexOf('-'))}&width=${image.slice(
+          image.lastIndexOf('-') + 1,
+          image.lastIndexOf('x')
+        )}&height=${image.slice(image.lastIndexOf('x') + 1, image.lastIndexOf('.'))}`,
+      }));
+      resizedImages.map(
+        image =>
+          (resizedRoot.innerHTML += `
+            <a class="imageContainer" href="${image.url}">
+              <h2>${image.name} - ${image.format}</h2>
+                <img src="${image.url}" alt="${image.name}" width="200" height="200"/>
+              <h3>${image.width} X ${image.height}</h3>
+            </a>
+          `)
+      );
+      const fullImages = full.map(image => ({
+        name: image.slice(0, image.lastIndexOf('.')),
+        format: image.slice(image.lastIndexOf('.') + 1, image.length),
+        url: `/api/images?filename=${image.slice(0, image.lastIndexOf('.'))}&format=${image.slice(image.lastIndexOf('.') + 1, image.length)}&full=true`,
+      }));
+      fullImages.map(
+        image =>
+          (fullRoot.innerHTML += `
+            <a class="imageContainer" href="${image.url}">
+              <h2>${image.name} - ${image.format}</h2>
+                <img src="${image.url}" alt="${image.name}" width="200" height="200"/>
+            </a>
+          `)
+      );
+    })();
+  </script>
+</html>

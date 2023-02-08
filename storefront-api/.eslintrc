@@ -1,0 +1,38 @@
+{
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "prettier"],
+  "rules": {
+    "eqeqeq": 2,
+    "no-console": 1,
+    "no-var": 2,
+    "prefer-const": 2,
+    "no-undef": 0,
+    "no-unused-vars": 0,
+    "prettier/prettier": [2, {
+        "endOfLine": "auto",
+        "trailingComma": "none"
+    }],
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/no-explicit-any": 2,
+    "@typescript-eslint/no-unused-vars": 1
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "dist"
+  ]
+}

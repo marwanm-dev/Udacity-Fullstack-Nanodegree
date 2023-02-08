@@ -8,4 +8,4 @@
 
 - Elective Project - Manage Freelancing Projects
 
-##### [Course Link](https://www.udacity.com/course/full-stack-javascript-developer-nanodegree--nd0067)
+#### [Udacity course](https://www.udacity.com/course/full-stack-javascript-developer-nanodegree--nd0067) [From Egyptfwd](https://egfwd.com/specializtion/web-development-advanced/)
